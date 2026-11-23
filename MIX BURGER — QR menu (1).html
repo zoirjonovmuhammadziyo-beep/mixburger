@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MIX BURGER — QR menu</title>
+<style>
+  :root{
+    --bg:#000; --card:#121212; --card2:#1a1a1a; --ink:#f7f0dc; --muted:#a39678;
+    --gold:#d4af37; --gold-hi:#f5d76e; --gold-lo:#9a7412;
+    --gold-grad:linear-gradient(135deg,#f5d76e 0%,#d4af37 45%,#9a7412 100%);
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;-webkit-tap-highlight-color:transparent}
+  header{text-align:center;padding:34px 20px 24px;border-bottom:1px solid #2a2212;background:radial-gradient(ellipse at top,#1d1606 0%,#000 70%)}
+  .logo{font-size:34px;font-weight:900;letter-spacing:4px;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  header p{font-size:13px;color:var(--muted);margin-top:8px;letter-spacing:.5px}
+  .line{margin:14px auto 0;width:140px;height:3px;border-radius:2px;background:repeating-linear-gradient(90deg,var(--gold) 0 10px,transparent 10px 16px)}
+  .topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;position:sticky;top:0;background:rgba(0,0,0,.92);backdrop-filter:blur(6px);z-index:5;border-bottom:1px solid #2a2212}
+  .back{border:1px solid var(--gold);background:transparent;color:var(--gold-hi);font-size:14px;font-weight:700;padding:8px 14px;border-radius:999px;cursor:pointer}
+  .topbar h2{font-size:18px;font-weight:800;flex:1;text-align:center;padding-right:72px;color:var(--gold-hi)}
+  main{max-width:640px;margin:0 auto;padding:16px}
+  .section-title{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin:6px 4px 14px;text-align:center}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cat{background:var(--card);border:1px solid #2e2412;border-radius:var(--radius);padding:0 0 14px;text-align:center;cursor:pointer;color:var(--ink);overflow:hidden;transition:transform .12s,border-color .2s}
+  .cat:active{transform:scale(.97)}
+  .cat:hover{border-color:var(--gold)}
+  .cat .pic{height:96px;display:flex;align-items:center;justify-content:center;font-size:52px;background:radial-gradient(circle at 50% 30%,#2a1f08,#0d0b06 75%);border-bottom:1px solid #2e2412;margin-bottom:12px}
+  .cat .name{font-size:15px;font-weight:800;display:block;color:var(--gold-hi)}
+  .cat .count{font-size:12px;color:var(--muted);display:block;margin-top:4px}
+  .dish{background:var(--card);border:1px solid #2e2412;border-radius:var(--radius);padding:12px;margin-bottom:12px;display:flex;gap:12px;align-items:center;cursor:pointer}
+  .dish:active{background:var(--card2)}
+  .dish .thumb{flex:0 0 92px;height:92px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:42px;background:radial-gradient(circle at 50% 30%,#2a1f08,#0d0b06 75%);border:1px solid var(--gold-lo);overflow:hidden}
+  .dish .info{flex:1;min-width:0}
+  .dish h3{font-size:16px;font-weight:700;color:var(--ink)}
+  .dish .meta{font-size:12px;color:#7d7055;margin-top:6px}
+  .dish .price{font-size:15px;font-weight:800;color:var(--gold-hi);white-space:nowrap;margin-top:8px}
+  .detail{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:flex-end;justify-content:center;z-index:20}
+  .detail.open{display:flex}
+  .sheet{background:#0c0c0c;border:1px solid var(--gold-lo);width:100%;max-width:640px;border-radius:24px 24px 0 0;padding:20px 20px 26px;animation:up .2s ease-out}
+  @keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+  .sheet .big{height:180px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:90px;background:radial-gradient(circle at 50% 30%,#2a1f08,#0d0b06 75%);border:1px solid var(--gold);margin-bottom:16px;overflow:hidden}
+  .sheet h3{font-size:22px;font-weight:800;color:var(--gold-hi)}
+  .sheet .row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:14px;border-top:1px dashed #3a2f16;font-size:14px;color:var(--muted)}
+  .sheet .row b{color:var(--gold-hi);font-size:20px}
+  .close{margin-top:18px;width:100%;border:none;background:var(--gold-grad);color:#000;font-size:16px;font-weight:800;padding:14px;border-radius:12px;cursor:pointer}
+  .contact{max-width:640px;margin:18px auto 0;padding:22px 20px;text-align:center;background:var(--card);border:1px solid var(--gold-lo);border-radius:var(--radius)}
+  .ct-title{font-size:16px;font-weight:800;color:var(--gold-hi)}
+  .ct-sub{font-size:13px;font-weight:600;color:var(--muted);margin-top:14px}
+  .ct-row{font-size:14px;color:var(--ink);margin-top:8px}
+  .ct-phone{display:block;margin-top:10px;font-size:18px;font-weight:800;letter-spacing:.5px;color:#000;background:var(--gold-grad);padding:12px;border-radius:12px;text-decoration:none}
+  footer{text-align:center;color:#6f624a;font-size:12px;padding:24px 16px 32px;border-top:1px solid #1d1706;margin-top:10px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">MIX BURGER</div>
+  <p>Skanerlang · Tanlang · Bahramand bo'ling</p>
+  <div class="line"></div>
+</header>
+
+<div id="app"></div>
+
+<div class="detail" id="detail" onclick="if(event.target.id==='detail')closeDish()">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<section class="contact">
+  <div class="ct-title">Bepul yetkazib berish (dastavka)</div>
+  <div class="ct-row">📍 Manzil: Yarmarka aylanmasi yonida</div>
+  <div class="ct-title ct-sub">Buyurtma berish uchun o'ng iroq qiling:</div>
+  <a class="ct-phone" href="tel:+998772257707">+998 77 225 77 07</a>
+  <a class="ct-phone" href="tel:+998770430141">+998 77 043 01 41</a>
+</section>
+
+<footer>Narxlar so'mda ko'rsatilgan. Taqdim etish fotodan farq qilishi mumkin.</footer>
+
+<script>
+/* ==========================================================
+   MENYU — faqat shu blokni tahrirlang.
+   img: taom rasmi (emoji yoki rasm manzili), price: so'mda
+   ========================================================== */
+const MENU = [
+  {
+    id: "tez", icon: "🍔", name: "Fast food",
+    items: [
+      { name: "Hot-dog oddiy", price: 15000, img: "🌭" },
+      { name: "Mini hot-dog", price: 10000, img: "🌭" },
+      { name: "Korolevskiy", price: 20000, img: "🌭" },
+      { name: "Korolevskiy", price: 25000, img: "🌭" },
+      { name: "Lavash oddiy", price: 30000, img: "🌯" },
+      { name: "Lavash big", price: 35000, img: "🌯" },
+      { name: "Non hot-dog", price: 20000, img: "🥖" },
+      { name: "Big Korolevskiy", price: 30000, img: "🌭" },
+      { name: "Shaurma oddiy", price: 30000, img: "🌯" },
+      { name: "Shaurma big", price: 35000, img: "🌯" }
+    ]
+  },
+  {
+    id: "shashlik", icon: "🍢", name: "Shashliklar",
+    items: [
+      { name: "Qiyma shashlik", price: 12000, img: "🍢" },
+      { name: "Kuskavoy", price: 20000, img: "🍢" },
+      { name: "Go'z shashlik", price: 15000, img: "🍢" },
+      { name: "Tovuq shashlik", price: 15000, img: "🍗" },
+      { name: "O'rdak shashlik", price: 15000, img: "🍖" },
+      { name: "Napaleon shashlik", price: 25000, img: "🍢" },
+      { name: "Rulet shashlik", price: 25000, img: "🍢" },
+      { name: "Kuyov bola shashlik", price: 20000, img: "🍢" }
+    ]
+  },
+  {
+    id: "suv", icon: "🥤", name: "Suvlar",
+    items: [
+      { name: "Lipton limon", price: 12000, img: "🍋" },
+      { name: "Lipton malina", price: 12000, img: "🍓" },
+      { name: "Lipton shaftoli", price: 12000, img: "🍑" },
+      { name: "Pepsi", weight: "0,5 l", price: 7000, img: "🥤" },
+      { name: "Pepsi", weight: "1 l", price: 12000, img: "🥤" },
+      { name: "Pepsi", weight: "1,5 l", price: 15000, img: "🥤" },
+      { name: "Pepsi", weight: "1,75 l", price: 20000, img: "🥤" }
+    ]
+  },
+  {
+    id: "choy", icon: "🍵", name: "Choy",
+    items: [
+      { name: "Olmali choy", price: 5000, img: "🍏" },
+      { name: "Shaftoli choy", price: 5000, img: "🍑" },
+      { name: "Qulupnay choy", price: 5000, img: "🍓" },
+      { name: "Malina choy", price: 5000, img: "🍇" }
+    ]
+  },
+  {
+    id: "qahva", icon: "☕", name: "Kofe",
+    items: [
+      { name: "Kapuchino", price: 8000, img: "☕" },
+      { name: "Sutli kofe", price: 8000, img: "🥛" },
+      { name: "Oddiy kofe", price: 5000, img: "☕" }
+    ]
+  }
+];
+
+/* ================= Logika (o'zgartirish shart emas) ================= */
+const app = document.getElementById("app");
+const fmt = n => n.toLocaleString("ru-RU").replace(/ /g," ") + " so'm";
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function picture(v){
+  return /^(https?:|data:)/.test(v) ? `<img src="${esc(v)}" alt="" style="width:100%;height:100%;object-fit:cover">` : esc(v);
+}
+
+function renderHome(){
+  app.innerHTML = `
+    <main>
+      <div class="section-title">Kategoriyani tanlang</div>
+      <div class="grid">
+        ${MENU.map(c => `
+          <button class="cat" onclick="go('${c.id}')">
+            <span class="pic">${c.icon}</span>
+            <span class="name">${esc(c.name)}</span>
+            <span class="count">${c.items.length} ta taom</span>
+          </button>`).join("")}
+      </div>
+    </main>`;
+}
+
+function renderCategory(id){
+  const c = MENU.find(x => x.id === id);
+  if(!c){ return renderHome(); }
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back" onclick="go('')">← Orqaga</button>
+      <h2>${c.icon} ${esc(c.name)}</h2>
+    </div>
+    <main>
+      ${c.items.map((d,i) => `
+        <div class="dish" onclick="openDish('${c.id}',${i})">
+          <div class="thumb">${picture(d.img)}</div>
+          <div class="info">
+            <h3>${esc(d.name)}</h3>
+            ${d.weight ? `<div class="meta">${esc(d.weight)}</div>` : ""}
+            <div class="price">${fmt(d.price)}</div>
+          </div>
+        </div>`).join("")}
+    </main>`;
+}
+
+function route(){
+  const id = location.hash.replace("#","");
+  if(id && MENU.some(c => c.id === id)) renderCategory(id);
+  else renderHome();
+  window.scrollTo(0,0);
+}
+function go(id){ location.hash = id || ""; if(!id) route(); }
+
+function openDish(catId, i){
+  const d = MENU.find(c => c.id === catId).items[i];
+  document.getElementById("sheet").innerHTML = `
+    <div class="big">${picture(d.img)}</div>
+    <h3>${esc(d.name)}</h3>
+    <div class="row"><span>${d.weight ? esc(d.weight) : ""}</span><b>${fmt(d.price)}</b></div>
+    <button class="close" onclick="closeDish()">Yopish</button>`;
+  document.getElementById("detail").classList.add("open");
+}
+function closeDish(){ document.getElementById("detail").classList.remove("open"); }
+
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
